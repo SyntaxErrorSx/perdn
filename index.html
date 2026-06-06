@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Isabel Lorena 🌷</title>
+<link rel="icon" type="image/x-icon" href="a.ico">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #0e0018 0%, #230430 50%, #0e0018 100%);
+    font-family: 'Georgia', serif;
+    overflow-x: hidden;
+    position: relative;
+  }
+  #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .floating-heart { position: fixed; pointer-events: none; z-index: 1; animation: floatUp linear infinite; opacity: 0; }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 0; }
+    10%  { opacity: 0.7; }
+    80%  { opacity: 0.35; }
+    100% { transform: translateY(-115vh) rotate(25deg) scale(0.4); opacity: 0; }
+  }
+  .music-player {
+    position: fixed; top: 18px; right: 18px; z-index: 200;
+    background: rgba(30,0,45,0.88);
+    border: 1px solid rgba(210,120,255,0.35);
+    border-radius: 50px; padding: 10px 18px 10px 14px;
+    display: flex; align-items: center; gap: 12px;
+    backdrop-filter: blur(14px);
+    animation: fadeUp 0.8s ease forwards 0.3s; opacity: 0;
+    box-shadow: 0 4px 30px rgba(150,50,220,0.25);
+  }
+  .music-btn {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(210,100,255,0.15); border: 1px solid rgba(210,100,255,0.4);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; flex-shrink: 0;
+  }
+  .music-btn:hover { background: rgba(210,100,255,0.28); transform: scale(1.08); }
+  .music-btn svg { width: 14px; height: 14px; fill: #f0c0ff; }
+  .music-info { min-width: 0; }
+  .music-title { font-size: 11px; color: #f0c0ff; font-family: 'Georgia', serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px; }
+  .music-sub { font-size: 10px; color: #9060b8; margin-top: 1px; font-style: italic; }
+  .music-bars { display: flex; align-items: flex-end; gap: 2px; height: 16px; flex-shrink: 0; }
+  .music-bars span { width: 3px; background: #d070f0; border-radius: 2px; animation: barBounce 0.8s ease-in-out infinite alternate; }
+  .music-bars span:nth-child(1) { height: 6px; animation-delay: 0s; }
+  .music-bars span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+  .music-bars span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
+  .music-bars span:nth-child(4) { height: 14px; animation-delay: 0.1s; }
+  .music-bars.paused span { animation-play-state: paused; }
+  @keyframes barBounce { from { transform: scaleY(0.3); } to { transform: scaleY(1); } }
+  #cat-container { position: fixed; z-index: 50; pointer-events: none; bottom: 50px; left: 20px; width: 100px; height: 100px; }
+  #catCanvas { width: 100px; height: 100px; }
+  .content {
+    position: relative; z-index: 10;
+    max-width: 660px; margin: 0 auto;
+    padding: 70px 24px 100px; text-align: center;
+  }
+  .to-label { font-size: 12px; letter-spacing: 5px; color: #c084c8; text-transform: uppercase; margin-bottom: 8px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.5s; }
+  .name { font-size: 36px; font-weight: 700; color: #f5d0ff; margin-bottom: 44px; text-shadow: 0 0 50px rgba(210,100,255,0.45); opacity: 0; animation: fadeUp 0.8s ease forwards 0.8s; }
+  .heart-canvas-wrap { margin: 0 auto 44px; width: 200px; height: 200px; opacity: 0; animation: fadeUp 0.8s ease forwards 1.1s; }
+  #heartCanvas { width: 200px; height: 200px; }
+  .message-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(210,120,255,0.2); border-radius: 20px; padding: 34px 30px; margin-bottom: 36px; opacity: 0; animation: fadeUp 0.8s ease forwards 2.2s; }
+  .message-box p { font-size: 16px; line-height: 1.88; color: #e8cff5; font-style: italic; }
+  .message-box p + p { margin-top: 16px; }
+  .highlight { color: #eeaaff; font-style: normal; font-weight: 600; }
+  .ig-section { background: rgba(255,255,255,0.03); border: 1px solid rgba(210,120,255,0.18); border-radius: 18px; padding: 28px 28px 24px; margin-bottom: 36px; opacity: 0; animation: fadeUp 0.8s ease forwards 2.7s; }
+  .ig-label { font-size: 12px; letter-spacing: 3px; color: #c084c8; text-transform: uppercase; margin-bottom: 14px; }
+  .ig-message { font-size: 15px; color: #ddbff0; font-style: italic; line-height: 1.8; margin-bottom: 20px; }
+  .ig-handle-row { display: flex; align-items: center; justify-content: center; gap: 14px; }
+  .ig-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(210,100,255,0.12); border: 1px solid rgba(210,100,255,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ig-icon svg { width: 22px; height: 22px; }
+  .ig-handle { font-size: 20px; font-weight: 700; color: #f0c0ff; letter-spacing: 1px; }
+  .ig-sub { font-size: 12px; color: #a060b8; margin-top: 4px; font-style: italic; }
+  .ig-open-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 11px 24px; background: rgba(210,100,255,0.1); border: 1px solid rgba(210,100,255,0.35); border-radius: 50px; color: #f0c0ff; font-family: 'Georgia', serif; font-size: 14px; cursor: pointer; transition: all 0.3s; text-decoration: none; }
+  .ig-open-btn:hover { background: rgba(210,100,255,0.2); border-color: rgba(210,100,255,0.6); transform: translateY(-2px); }
+  .no-respond { font-size: 14px; color: #9060a8; font-style: italic; margin-bottom: 36px; line-height: 1.7; opacity: 0; animation: fadeUp 0.8s ease forwards 3.1s; }
+  .no-respond span { color: #c090d8; }
+  .cards-title { font-size: 12px; letter-spacing: 3px; color: #c084c8; text-transform: uppercase; margin-bottom: 18px; opacity: 0; animation: fadeUp 0.8s ease forwards 3.4s; }
+  .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 44px; opacity: 0; animation: fadeUp 0.8s ease forwards 3.6s; }
+  .card-btn { background: rgba(255,255,255,0.04); border: 1px solid rgba(210,120,255,0.22); border-radius: 16px; padding: 20px 14px; cursor: pointer; transition: all 0.3s; color: #e8cff5; font-family: 'Georgia', serif; font-size: 13px; text-align: center; }
+  .card-btn:hover { background: rgba(210,100,255,0.1); border-color: rgba(210,100,255,0.5); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(160,60,210,0.18); }
+  .card-btn:active { transform: translateY(0) scale(0.97); }
+  .card-btn .ci { font-size: 26px; display: block; margin-bottom: 9px; }
+  .card-btn .ct { font-style: italic; font-size: 13px; color: #cca0dc; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(8,0,14,0.88); z-index: 300; align-items: center; justify-content: center; }
+  .modal-overlay.active { display: flex; }
+  .modal-card { background: linear-gradient(140deg,#2b0a3b,#180822); border: 1px solid rgba(210,120,255,0.32); border-radius: 24px; padding: 44px 32px; max-width: 370px; width: 90%; text-align: center; position: relative; animation: popIn 0.4s cubic-bezier(.17,.67,.3,1.3) forwards; }
+  @keyframes popIn { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
+  .modal-card .mi { font-size: 40px; margin-bottom: 16px; display: block; }
+  .modal-card h3 { font-size: 19px; color: #eeb0ff; margin-bottom: 12px; font-weight: 600; }
+  .modal-card p { font-size: 15px; color: #d0acec; line-height: 1.78; font-style: italic; }
+  .modal-close { position: absolute; top: 14px; right: 18px; background: none; border: none; color: #9050b0; font-size: 22px; cursor: pointer; transition: color 0.2s; }
+  .modal-close:hover { color: #eeb0ff; }
+  .signature { font-size: 13px; color: #8050a0; letter-spacing: 1px; opacity: 0; animation: fadeUp 0.8s ease forwards 4.0s; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  .sparkle { position: fixed; pointer-events: none; z-index: 2; border-radius: 50%; animation: sparkleFade 1s ease forwards; }
+  @keyframes sparkleFade { 0%{transform:scale(0);opacity:1;} 50%{transform:scale(1.5);opacity:0.8;} 100%{transform:scale(0.5);opacity:0;} }
+  .cat-bubble { position: fixed; z-index: 51; pointer-events: none; background: rgba(40,0,60,0.93); border: 1px solid rgba(210,120,255,0.45); border-radius: 14px; padding: 8px 14px; font-size: 13px; font-family: 'Georgia', serif; font-style: italic; color: #f0c0ff; white-space: nowrap; opacity: 0; transition: opacity 0.4s; }
+  .cat-bubble::after { content:''; position:absolute; bottom:-8px; left:18px; border-left:8px solid transparent; border-right:8px solid transparent; border-top:8px solid rgba(210,120,255,0.45); }
+  /* pantalla de bienvenida */
+  #splash {
+    position: fixed; inset: 0; z-index: 9999;
+    background: linear-gradient(160deg,#0e0018 0%,#230430 50%,#0e0018 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 20px; transition: opacity 0.8s ease;
+  }
+  #splash .splash-title { font-size: 22px; color: #f0c0ff; font-family: 'Georgia', serif; font-style: italic; }
+  #splash .splash-sub { font-size: 14px; color: #9060b8; font-family: 'Georgia', serif; font-style: italic; }
+  #splash button {
+    margin-top: 10px; padding: 14px 36px;
+    background: rgba(210,100,255,0.12);
+    border: 1px solid rgba(210,100,255,0.5);
+    border-radius: 50px; color: #f0c0ff;
+    font-family: 'Georgia', serif; font-size: 16px;
+    cursor: pointer; transition: all 0.3s;
+  }
+  #splash button:hover { background: rgba(210,100,255,0.25); transform: scale(1.05); }
+  .splash-hearts { display: flex; gap: 8px; font-size: 22px; animation: splashPulse 1.5s ease-in-out infinite alternate; }
+  @keyframes splashPulse { from { opacity:0.5; transform:scale(0.95); } to { opacity:1; transform:scale(1.05); } }
+</style>
+</head>
+<body>
+
+<!-- PANTALLA DE INICIO -->
+<div id="splash">
+  <div class="splash-hearts">💜 🌸 💜</div>
+  <div class="splash-title">Hay algo para ti</div>
+  <div class="splash-sub">toca para abrir</div>
+  <button onclick="startPage()">✨ Abrir ✨</button>
+</div>
+
+<canvas id="particles"></canvas>
+
+<div class="music-player" id="musicPlayer">
+  <button class="music-btn" id="playBtn" onclick="toggleMusic()" title="Play/Pause">
+    <svg id="playIcon" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+  </button>
+  <div class="music-info">
+    <div class="music-title" id="songTitle">♪ cancion.mp3</div>
+    <div class="music-sub" id="musicSubtitle">cargando...</div>
+  </div>
+  <div class="music-bars paused" id="musicBars">
+    <span></span><span></span><span></span><span></span>
+  </div>
+</div>
+
+<div id="cat-container">
+  <canvas id="catCanvas" width="100" height="100"></canvas>
+</div>
+<div class="cat-bubble" id="catBubble">¡hola! 🐾</div>
+
+<div class="content">
+  <div class="to-label">Para</div>
+  <div class="name">Isabel Lorena Muñoz</div>
+  <div class="heart-canvas-wrap">
+    <canvas id="heartCanvas" width="200" height="200"></canvas>
+  </div>
+  <div class="message-box">
+    <p>Sé que no tengo el derecho de pedirte nada. Solo quiero que sepas que me arrepiento profundamente de no haber sido la persona que merecías a tu lado.</p>
+    <p>Fui un <span class="highlight">pendejo</span>. No supe comportarme, no supe valorar lo que tenía frente a mí, y eso estuvo muy mal. No hay excusa que valga.</p>
+    <p>No te pido una oportunidad. No te pido nada más allá de que sepas que <span class="highlight">lo que vivimos fue real y especial para mí</span>, y que desearía con todo haber actuado diferente.</p>
+    <p>Si algún día el universo nos lo permite, solo quisiera recuperar aunque sea esa amistad que teníamos. Pero lo entiendo si no es posible.</p>
+    <p>Gracias por haber sido tan especial. Lo siento de verdad.</p>
+  </div>
+  <div class="ig-section">
+    <div class="ig-label">✦ si deseas que hablemos ✦</div>
+    <p class="ig-message">Si sientes que quieres hablar, si hay algo que decir o simplemente retomar aunque sea desde cero, aquí estoy. Sin presión, sin expectativas. Solo si tú quieres.</p>
+    <div class="ig-handle-row">
+      <div class="ig-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#d070f0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="#d070f0" stroke="none"/>
+        </svg>
+      </div>
+      <div>
+        <div class="ig-handle">@s_lpvl</div>
+        <div class="ig-sub">encuéntrame aquí si quieres</div>
+      </div>
+    </div>
+    <a class="ig-open-btn" href="https://www.instagram.com/s_lpvl" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f0c0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Abrir Instagram
+    </a>
+  </div>
+  <div class="no-respond">
+    <span>Y si decides no responder</span>, también lo entiendo.<br>
+    Solo quería que supieras cómo me siento. Eso es todo. 🕊️
+  </div>
+  <div class="cards-title">Cartitas para ti ✦</div>
+  <div class="cards-grid">
+    <button class="card-btn" onclick="openCard(0)"><span class="ci">🌸</span><span class="ct">Lo que más admiro de ti</span></button>
+    <button class="card-btn" onclick="openCard(1)"><span class="ci">🌙</span><span class="ct">Lo que guardo en mi memoria</span></button>
+    <button class="card-btn" onclick="openCard(2)"><span class="ci">🕊️</span><span class="ct">Mi deseo para ti</span></button>
+    <button class="card-btn" onclick="openCard(3)"><span class="ci">💜</span><span class="ct">Lo que debí haberte dicho</span></button>
+  </div>
+  <div class="signature">— con todo el arrepentimiento del mundo 🌷</div>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="closeCard(event)">
+  <div class="modal-card" id="modalCard">
+    <button class="modal-close" onclick="closeCardBtn()">✕</button>
+    <span class="mi" id="modalIcon"></span>
+    <h3 id="modalTitle"></h3>
+    <p id="modalText"></p>
+  </div>
+</div>
+
+<audio id="audio" loop src="Doma - song- love you.mp3"></audio>
+
+<script>
+/* ── SPLASH ── */
+function startPage() {
+  const splash = document.getElementById('splash');
+  splash.style.opacity = '0';
+  setTimeout(() => { splash.style.display = 'none'; }, 800);
+  const audio = document.getElementById('audio');
+  audio.play().then(() => {
+    playing = true;
+    updateMusicUI();
+    document.getElementById('musicSubtitle').textContent = 'reproduciendo ♪';
+  }).catch(() => {
+    document.getElementById('musicSubtitle').textContent = 'toca ▶ para escuchar';
+  });
+}
+
+/* ── CARDS ── */
+const cards = [
+  { icon:"🌸", title:"Lo que más admiro de ti", text:"Tu forma de ser. Esa energía tuya tan única, esa luz que tienes sin darte cuenta. Las personas como tú son escasas, y yo no supe cuidar lo que tenía cerca." },
+  { icon:"🌙", title:"Lo que guardo en mi memoria", text:"Cada momento contigo lo llevo guardado. Las conversaciones, las risas, esos instantes en que sentí que todo tenía sentido. Gracias por haberme regalado eso." },
+  { icon:"🕊️", title:"Mi deseo para ti", text:"Que seas inmensamente feliz. Que todo lo bueno que das al mundo te regrese multiplicado. Que alguien sepa verte y valorarte como de verdad mereces. Eso es todo lo que deseo para ti." },
+  { icon:"💜", title:"Lo que debí haberte dicho", text:"Que eres especial. Que lo que sentí fue real. Que me importabas más de lo que supe expresar, y que ojalá hubiera tenido el valor de actuar diferente cuando aún tenía tiempo." }
+];
+function openCard(i){const c=cards[i];document.getElementById('modalIcon').textContent=c.icon;document.getElementById('modalTitle').textContent=c.title;document.getElementById('modalText').textContent=c.text;document.getElementById('modal').classList.add('active');burst();}
+function closeCard(e){if(e.target===document.getElementById('modal'))closeCardBtn();}
+function closeCardBtn(){document.getElementById('modal').classList.remove('active');}
+function burst(){for(let i=0;i<9;i++){const s=document.createElement('div');s.className='sparkle';s.style.cssText=`left:${Math.random()*100}vw;top:${Math.random()*100}vh;width:${4+Math.random()*6}px;height:${4+Math.random()*6}px;background:${['#f0c0ff','#ffd6f5','#e090ff','#ffb0f0'][~~(Math.random()*4)]};`;document.body.appendChild(s);setTimeout(()=>s.remove(),1000);}}
+
+/* ── MUSIC ── */
+let playing = false;
+const audio = document.getElementById('audio');
+function toggleMusic(){
+  if(playing){ audio.pause(); playing=false; } else { audio.play(); playing=true; }
+  updateMusicUI();
+}
+function updateMusicUI(){
+  const icon=document.getElementById('playIcon'), bars=document.getElementById('musicBars');
+  if(playing){ icon.innerHTML='<rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/>'; bars.classList.remove('paused'); document.getElementById('musicSubtitle').textContent='reproduciendo ♪'; }
+  else { icon.innerHTML='<polygon points="5,3 19,12 5,21"/>'; bars.classList.add('paused'); document.getElementById('musicSubtitle').textContent='pausado'; }
+}
+
+/* ── PARTICLES ── */
+const pc=document.getElementById('particles'),ctx=pc.getContext('2d');
+let W,H,dots=[];
+function resizeP(){W=pc.width=window.innerWidth;H=pc.height=window.innerHeight;}
+resizeP();window.addEventListener('resize',resizeP);
+for(let i=0;i<70;i++)dots.push({x:Math.random()*2000,y:Math.random()*1200,r:0.5+Math.random()*1.5,s:0.1+Math.random()*0.3,a:Math.random()*Math.PI*2});
+function drawParticles(){ctx.clearRect(0,0,W,H);dots.forEach(d=>{d.y-=d.s;d.x+=Math.sin(d.a)*0.3;d.a+=0.01;if(d.y<-10)d.y=H+10;ctx.beginPath();ctx.arc(d.x%W,d.y,d.r,0,Math.PI*2);ctx.fillStyle='rgba(210,140,255,0.3)';ctx.fill();});requestAnimationFrame(drawParticles);}
+drawParticles();
+
+/* ── FLOATING HEARTS ── */
+const heartSvgs=[
+  `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path fill="#e090ff" d="M16 28s-13-8.35-13-16A7 7 0 0 1 16 7.58 7 7 0 0 1 29 12c0 7.65-13 16-13 16z"/></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 32 32"><path fill="#f9c0ff" d="M16 28s-13-8.35-13-16A7 7 0 0 1 16 7.58 7 7 0 0 1 29 12c0 7.65-13 16-13 16z"/></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 32 32"><path fill="#c060e0" d="M16 28s-13-8.35-13-16A7 7 0 0 1 16 7.58 7 7 0 0 1 29 12c0 7.65-13 16-13 16z"/></svg>`,
+];
+function spawnHeart(){const el=document.createElement('div');el.className='floating-heart';el.innerHTML=heartSvgs[~~(Math.random()*heartSvgs.length)];el.style.left=(Math.random()*100)+'vw';el.style.bottom='-40px';const dur=7+Math.random()*8;el.style.animationDuration=dur+'s';el.style.animationDelay=(Math.random()*2)+'s';document.body.appendChild(el);setTimeout(()=>el.remove(),(dur+3)*1000);}
+setInterval(spawnHeart,600);for(let i=0;i<6;i++)spawnHeart();
+
+/* ── ANIMATED HEART ── */
+const hc=document.getElementById('heartCanvas'),hctx=hc.getContext('2d');
+let progress=0;
+function heartPoint(t){const x=16*Math.pow(Math.sin(t),3),y=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));return{x:100+x*8,y:100+y*8};}
+function drawHeart(p){
+  hctx.clearRect(0,0,200,200);
+  const steps=Math.floor(p*200);
+  hctx.beginPath();
+  for(let i=0;i<=steps;i++){const t=(i/200)*Math.PI*2,pt=heartPoint(t);i===0?hctx.moveTo(pt.x,pt.y):hctx.lineTo(pt.x,pt.y);}
+  hctx.strokeStyle='#d070f0';hctx.lineWidth=2.5;hctx.lineCap='round';hctx.stroke();
+  if(p>=1){const grad=hctx.createRadialGradient(100,90,10,100,90,70);grad.addColorStop(0,'rgba(210,90,255,0.3)');grad.addColorStop(1,'rgba(170,40,220,0.04)');hctx.fillStyle=grad;hctx.beginPath();for(let i=0;i<=200;i++){const t=(i/200)*Math.PI*2,pt=heartPoint(t);i===0?hctx.moveTo(pt.x,pt.y):hctx.lineTo(pt.x,pt.y);}hctx.closePath();hctx.fill();}
+  const tip=heartPoint((steps/200)*Math.PI*2);
+  hctx.beginPath();hctx.arc(tip.x,tip.y,3.5,0,Math.PI*2);hctx.fillStyle='#f0a0ff';hctx.fill();
+}
+function animateHeart(){progress+=0.008;drawHeart(Math.min(progress,1));if(progress<1){requestAnimationFrame(animateHeart);}else{let pulse=1,dir=0.003;function pulsate(){hctx.clearRect(0,0,200,200);hctx.save();hctx.translate(100,100);hctx.scale(pulse,pulse);hctx.translate(-100,-100);drawHeart(1);hctx.restore();pulse+=dir;if(pulse>1.06||pulse<0.97)dir=-dir;requestAnimationFrame(pulsate);}pulsate();}}
+setTimeout(animateHeart,1400);
+
+/* ── CUTE CAT v2 (más detallado y lindo) ── */
+const catCv = document.getElementById('catCanvas');
+const catCtx = catCv.getContext('2d');
+const catEl  = document.getElementById('cat-container');
+const bubble = document.getElementById('catBubble');
+
+const bubbleMsgs = ['¡hola! 🐾','miau~ 🐱','uwu 💜','¡cuídate! 🌸','~nya~','❤️','ronrón...','(=^･ω･^=)','te merece todo 💜'];
+let catX=30, catDir=1, catFrame=0, catTick=0;
+let catState='walk', stateTimer=0, tailWag=0;
+let blinkTimer=0, blinking=false;
+let moodTimer=0, mood='happy'; // happy | sleepy | love
+let heartPop=0;
+
+function drawCatV2(frame, state, blink, yawn, wag, currentMood) {
+  const cv = catCv;
+  const c = catCtx;
+  c.clearRect(0,0,100,100);
+  const cx=50, cy=56;
+
+  // ── SHADOW ──
+  c.beginPath(); c.ellipse(cx, cy+22, 18, 5, 0, 0, Math.PI*2);
+  c.fillStyle='rgba(100,0,150,0.18)'; c.fill();
+
+  // ── TAIL ──
+  const wagA = Math.sin(wag * 0.06) * 0.55;
+  c.beginPath(); c.moveTo(cx-14, cy+12);
+  const tcx = cx-28; const tcy = cy+8;
+  const tex = cx-30+Math.cos(wagA+0.8)*20; const tey = cy-8+Math.sin(wagA)*12;
+  c.bezierCurveTo(tcx, tcy+10, tcx-8, tey+8, tex, tey);
+  c.strokeStyle='#d4a0e8'; c.lineWidth=5; c.lineCap='round'; c.stroke();
+  // tail tip
+  c.beginPath(); c.arc(tex, tey, 4, 0, Math.PI*2);
+  c.fillStyle='#eeccff'; c.fill();
+
+  // ── BODY ──
+  c.beginPath(); c.ellipse(cx, cy+8, 20, 16, 0, 0, Math.PI*2);
+  c.fillStyle='#e8c0f8'; c.fill();
+  c.strokeStyle='#c080e0'; c.lineWidth=1.2; c.stroke();
+
+  // tummy
+  c.beginPath(); c.ellipse(cx, cy+12, 10, 8, 0, 0, Math.PI*2);
+  c.fillStyle='#f9e8ff'; c.fill();
+
+  // body stripe detail
+  c.beginPath(); c.moveTo(cx-6, cy+3); c.quadraticCurveTo(cx, cy+6, cx+6, cy+3);
+  c.strokeStyle='rgba(180,100,220,0.2)'; c.lineWidth=1; c.stroke();
+
+  // ── LEGS ──
+  const legSwing = state==='walk' ? Math.sin(frame*0.35)*6 : 0;
+  // back legs
+  [[-10,0],[10,0]].forEach(([ox], idx) => {
+    const off = idx===0 ? legSwing : -legSwing;
+    c.beginPath(); c.roundRect(cx+ox-4, cy+20+off, 8, 12, 5);
+    c.fillStyle='#deb0f0'; c.fill(); c.strokeStyle='#b870d8'; c.lineWidth=0.8; c.stroke();
+    // paw
+    c.beginPath(); c.ellipse(cx+ox, cy+32+off, 5, 3, 0, 0, Math.PI*2);
+    c.fillStyle='#f0d0ff'; c.fill(); c.strokeStyle='#c080e0'; c.lineWidth=0.6; c.stroke();
+  });
+
+  // ── HEAD ──
+  c.beginPath(); c.ellipse(cx, cy-13, 18, 17, 0, 0, Math.PI*2);
+  c.fillStyle='#eeccff'; c.fill(); c.strokeStyle='#c080e0'; c.lineWidth=1.2; c.stroke();
+
+  // head marking (tabby lines)
+  for(let l=0;l<3;l++){
+    c.beginPath(); c.moveTo(cx-5+l*4, cy-28); c.lineTo(cx-4+l*4, cy-23);
+    c.strokeStyle='rgba(180,100,220,0.25)'; c.lineWidth=1.5; c.lineCap='round'; c.stroke();
+  }
+
+  // ── EARS ──
+  [[-13,-26],[13,-26]].forEach(([ex,ey]) => {
+    // outer
+    c.beginPath(); c.moveTo(cx+ex, cy+ey+8); c.lineTo(cx+ex-8, cy+ey-10); c.lineTo(cx+ex+8, cy+ey-10); c.closePath();
+    c.fillStyle='#eeccff'; c.fill(); c.strokeStyle='#c080e0'; c.lineWidth=1; c.stroke();
+    // inner pink
+    c.beginPath(); c.moveTo(cx+ex, cy+ey+5); c.lineTo(cx+ex-4, cy+ey-6); c.lineTo(cx+ex+4, cy+ey-6); c.closePath();
+    c.fillStyle='#f5b0df'; c.fill();
+    // ear tuft
+    c.beginPath(); c.moveTo(cx+ex-3, cy+ey-7); c.lineTo(cx+ex, cy+ey-14); c.lineTo(cx+ex+3, cy+ey-7);
+    c.strokeStyle='rgba(200,150,240,0.4)'; c.lineWidth=1; c.stroke();
+  });
+
+  // ── EYES ──
+  if(!blink) {
+    [[-6,-14],[6,-14]].forEach(([ex,ey]) => {
+      // eyeball
+      c.beginPath(); c.ellipse(cx+ex, cy+ey, 4.5, 5, 0, 0, Math.PI*2);
+      c.fillStyle='#3a1580'; c.fill();
+      // iris shine
+      c.beginPath(); c.ellipse(cx+ex+0.5, cy+ey-1.5, 2.5, 3, -0.3, 0, Math.PI*2);
+      c.fillStyle='#6030c0'; c.fill();
+      // highlight
+      c.beginPath(); c.arc(cx+ex+1.5, cy+ey-2, 1.5, 0, Math.PI*2);
+      c.fillStyle='rgba(255,255,255,0.9)'; c.fill();
+      c.beginPath(); c.arc(cx+ex-1, cy+ey+1, 0.7, 0, Math.PI*2);
+      c.fillStyle='rgba(255,255,255,0.5)'; c.fill();
+      // heart pupils when love mood
+      if(currentMood==='love') {
+        c.fillStyle='#ff80c0';
+        c.font='7px serif'; c.textAlign='center'; c.textBaseline='middle';
+        c.fillText('♥', cx+ex, cy+ey);
+      }
+    });
+  } else {
+    [[-6,-14],[6,-14]].forEach(([ex,ey]) => {
+      c.beginPath(); c.moveTo(cx+ex-4, cy+ey); c.quadraticCurveTo(cx+ex, cy+ey+2, cx+ex+4, cy+ey);
+      c.strokeStyle='#3a1580'; c.lineWidth=2.5; c.lineCap='round'; c.stroke();
+    });
+  }
+
+  // sleepy zzz eyes
+  if(currentMood==='sleepy' && !blink) {
+    [[-6,-14],[6,-14]].forEach(([ex,ey]) => {
+      c.beginPath(); c.moveTo(cx+ex-4, cy+ey-1); c.quadraticCurveTo(cx+ex, cy+ey+3, cx+ex+4, cy+ey-1);
+      c.strokeStyle='#3a1580'; c.lineWidth=2; c.stroke();
+    });
+  }
+
+  // ── NOSE ──
+  c.beginPath(); c.moveTo(cx, cy-8); c.lineTo(cx-2.5, cy-5); c.lineTo(cx+2.5, cy-5); c.closePath();
+  c.fillStyle='#ff80c0'; c.fill();
+
+  // ── MOUTH ──
+  if(yawn) {
+    c.beginPath(); c.ellipse(cx, cy-1, 6, 5, 0, 0, Math.PI*2);
+    c.fillStyle='#c040a0'; c.fill();
+    c.fillStyle='#fff'; c.fillRect(cx-4, cy-4, 3.5, 2.5); c.fillRect(cx+1, cy-4, 3.5, 2.5);
+    // tongue
+    c.beginPath(); c.ellipse(cx, cy+2, 3, 2, 0, 0, Math.PI*2);
+    c.fillStyle='#ff90b0'; c.fill();
+  } else {
+    c.beginPath(); c.moveTo(cx, cy-5); c.lineTo(cx-4, cy-2); c.moveTo(cx, cy-5); c.lineTo(cx+4, cy-2);
+    c.strokeStyle='#c060b0'; c.lineWidth=1.2; c.lineCap='round'; c.stroke();
+    // smile
+    c.beginPath(); c.moveTo(cx-4, cy-2); c.quadraticCurveTo(cx, cy+1, cx+4, cy-2);
+    c.strokeStyle='#c060b0'; c.lineWidth=1.2; c.stroke();
+  }
+
+  // ── WHISKERS ──
+  [[-1,1]].forEach(s => {
+    for(let w=0;w<3;w++){
+      const wy=cy-9+w*3; const len=20;
+      c.beginPath(); c.moveTo(cx-3, wy); c.lineTo(cx-3-len*s[0], wy+(w-1)*1.5);
+      c.strokeStyle='rgba(190,130,230,0.55)'; c.lineWidth=0.9; c.lineCap='round'; c.stroke();
+      c.beginPath(); c.moveTo(cx+3, wy); c.lineTo(cx+3+len*s[0], wy+(w-1)*1.5);
+      c.strokeStyle='rgba(190,130,230,0.55)'; c.lineWidth=0.9; c.stroke();
+    }
+  });
+
+  // ── BLUSH ──
+  const blushAlpha = currentMood==='love' ? 0.55 : 0.3;
+  c.beginPath(); c.ellipse(cx-13, cy-10, 6, 3.5, -0.2, 0, Math.PI*2);
+  c.fillStyle=`rgba(255,140,190,${blushAlpha})`; c.fill();
+  c.beginPath(); c.ellipse(cx+13, cy-10, 6, 3.5, 0.2, 0, Math.PI*2);
+  c.fillStyle=`rgba(255,140,190,${blushAlpha})`; c.fill();
+
+  // ── HEART FLOAT (love mood) ──
+  if(currentMood==='love' && heartPop > 0) {
+    const ha = Math.min(heartPop/30, 1) * (1 - Math.max(0, heartPop-50)/30);
+    c.globalAlpha = ha;
+    c.fillStyle='#ff80c0'; c.font='12px serif'; c.textAlign='center';
+    c.fillText('♥', cx+14, cy-25 - (heartPop*0.4));
+    c.globalAlpha=1;
+  }
+
+  // ── ZZZ (sleepy) ──
+  if(currentMood==='sleepy') {
+    const za = (Math.sin(catTick*0.04)+1)/2 * 0.7;
+    c.globalAlpha=za; c.fillStyle='#b090e0'; c.font='bold 10px Georgia';
+    c.textAlign='center'; c.fillText('z', cx+20, cy-22-(za*4));
+    c.font='bold 8px Georgia'; c.fillText('z', cx+24, cy-30-(za*3));
+    c.globalAlpha=1;
+  }
+}
+
+function catLoop() {
+  catTick++; tailWag++; blinkTimer++; moodTimer++; stateTimer++;
+  if(heartPop>0) heartPop++;
+  if(heartPop>80) heartPop=0;
+
+  // mood change every ~400 ticks
+  if(moodTimer > 400+Math.random()*300){
+    moodTimer=0;
+    mood=['happy','happy','happy','sleepy','love'][~~(Math.random()*5)];
+    if(mood==='love'){ heartPop=1; }
+  }
+
+  // blink
+  if(blinkTimer > 110+Math.random()*90){ blinking=true; blinkTimer=0; setTimeout(()=>{blinking=false;},140); }
+
+  // state machine
+  if(catState==='walk'){
+    catX += 1.3*catDir;
+    if(catX > window.innerWidth-65){ catDir=-1; }
+    if(catX < 15){ catDir=1; }
+    catFrame++;
+    if(stateTimer > 180+Math.random()*220){
+      catState=Math.random()<0.5?'sit':'yawn'; stateTimer=0;
+      if(Math.random()<0.55) showBubbleFn();
+    }
+  } else {
+    catFrame=0;
+    if(stateTimer > 70+Math.random()*110){ catState='walk'; stateTimer=0; }
+  }
+
+  catEl.style.left=(catX-50)+'px';
+  catEl.style.transform=catDir===-1?'scaleX(-1)':'scaleX(1)';
+
+  drawCatV2(catFrame, catState, blinking, catState==='yawn'&&stateTimer<55, tailWag, mood);
+  requestAnimationFrame(catLoop);
+}
+
+function showBubbleFn(){
+  const msg=bubbleMsgs[~~(Math.random()*bubbleMsgs.length)];
+  bubble.textContent=msg;
+  bubble.style.opacity='1';
+  bubble.style.left=(catX-24)+'px';
+  bubble.style.bottom='155px';
+  setTimeout(()=>{bubble.style.opacity='0';},2400);
+}
+
+catLoop();
+window.addEventListener('resize',()=>{ if(catX>window.innerWidth-80) catX=window.innerWidth-90; });
+</script>
+</body>
+</html>
